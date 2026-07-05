@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { TMDB_Access_Key } from '../../config'
  
 const Player = (props) => {
-  const state = props.location;
   const {id} = useParams();
   const navigate = useNavigate();
 
@@ -36,12 +35,12 @@ const Player = (props) => {
 
   return (
     <div className='player'>
-      <img src={back_arrow_icon} alt="" onClick={()=>{navigate(-2)}}/>
+      <img src={back_arrow_icon} alt="" onClick={()=>{navigate('/')}}/>
       <iframe src={`https://www.youtube.com/embed/${apiData.key}`}
       title='trailer' frameBorder='0' allowFullScreen></iframe>
       <div className="player-info">
         <p>{apiData.published_at.slice(0,10)}</p>
-        <p>{state}</p>
+        <p>{apiData.name}</p>
         <p>{apiData.type}</p>
       </div>
     </div>
