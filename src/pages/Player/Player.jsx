@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './Player.css'
 import back_arrow_icon from '../../assets/back_arrow_icon.png'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { TMDB_Access_Key } from '../../config'
  
 const Player = (props) => {
   const {id} = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const [apiData, setApiData] = useState({
@@ -24,12 +25,14 @@ const Player = (props) => {
   };
 
   useEffect(()=>{
-    fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options)
+    const mediaType = searchParams.get('media_type') === 'tv' ? 'tv' : 'movie';
+
+    fetch(`https://api.themoviedb.org/3/${mediaType}/${id}/videos?language=en-US`, options)
     .then(response => response.json())
     .then(response => setApiData(response.results[0]))
     .catch(err => console.error(err));
     console.log(props);
-  },[])
+  },[id, searchParams])
   
   
 
